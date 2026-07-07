@@ -1,20 +1,37 @@
 const prompt = require("prompt-sync")(); // configurar entrada de datos 
 
-async function obtenerPokemon() {
-  const nombre = prompt("Digita pokemon: ");
-  
-  //encapsular funcion
-  const url='https://pokeapi.co/api/v2/pokemon/'+nombre
+async function obtenerPokemon(nombre) { // EXPLORACION PARTE 1
+
+  const url='https://pokeapi.co/api/v2/pokemon/'+nombre.toLowerCase();
 
   const respuesta = await fetch(url);
-  const datos = await respuesta.json();
+ 
   //console.log(datos);
   //console.log(respuesta);
   //console.log(datos.types[0].type.name);
    if (!respuesta.ok) {
-    console.log("No se pudo consultar el pokemon. Código:", respuesta.status);
+    console.log("No se pudo consultar el pokemon. Error:", respuesta.status);
     return null;
   }
+   const datos = await respuesta.json();
+   return datos;
+}
+
+module.exports = obtenerPokemon; //permite usar la funcion en otro archivo
+
+//PASO 2 - EJERCICIO 1
+/*   
+
+async function buscarPokemon() {
+  const nombre = prompt("Digita pokemon: ");
+  const datos = await obtenerPokemon(nombre)
+  
+  if (!datos) return;
+
+  console.log("Nombre:", datos.name);
+  console.log("Altura:", datos.height);
+  console.log("Peso:", datos.weight);
+
   // tipos
   for (let t of datos.types) {
     console.log("Tipo:", t.type.name);
@@ -31,32 +48,4 @@ async function obtenerPokemon() {
   }
 }
 
-obtenerPokemon() 
-
-
-
-
-async function buscarPokemon() {
-
-  const pokemonLeido = obtenerPokemon(nombre)
-  return 
-
-
-
-}
-
-//buscarPokemon();
-
-// async function buscarPokemon(nombre) {
-//   const p = await obtenerPokemon(nombre);
-//   console.log("Nombre:", p.name);
-//   console.log("Altura:", p.height);
-//   console.log("Peso", p.weight);
-//   console.log("Tipos:", p.types.map(t => t.type.name));
-//   console.log("Stats:", p.stats.map(s => `${s.stat.name}: ${s.base_stat}`));
-  
-// }
-
-
-
-//obtenerPokemon();
+*/
